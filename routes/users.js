@@ -2,8 +2,10 @@ const express = require('express')
 const router = express.Router()
 
 router.use(logger)
+
 //静的なものは動的なものの上に置く
 router.get('/', (req, res) => {
+    console.log(req.query.name)
     res.send("User List")
 })
 
@@ -12,8 +14,15 @@ router.get('/new', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    // res.send('Create User')
-    req.body.firstName
+    //res.send('Create User')
+    const isValid = true
+    if(isValid){
+        users.push({firstName: req.body.firstName})
+        res.redirect(`/users/${users.length - 1}`)
+    }else{
+        console.log("Error")
+        res.render("users/new", {firstName: req.body.firstName})
+    }
 })
 
 router
